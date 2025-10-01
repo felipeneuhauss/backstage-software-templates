@@ -57,8 +57,8 @@ spec:
       name: Publish
       action: publish:github
       input:
-        description: This is ${{ parameters.name }}-${{ parameters.environment }} api
-        repoUrl: github.com?owner=felipeneuhauss&repo=${{ parameters.name }}-${{ parameters.environment }}
+        description: This is ${{ parameters.name }} api
+        repoUrl: github.com?owner=felipeneuhauss&repo=${{ parameters.name }}
         defaultBranch: 'main'
         protectDefaultBranch: true
 

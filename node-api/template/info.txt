@@ -1,2 +1,0 @@
-This is my component name: ${{values.app_name}}
-This is my env name: ${{values.app_env}}

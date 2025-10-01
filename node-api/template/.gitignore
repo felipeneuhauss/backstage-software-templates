@@ -1,0 +1,8 @@
+node_modules
+.env
+.DS_Store
+.idea
+
+Run sed -i "s/tag: \".*\"/tag: \"165282b\"/" charts/backstage-node-app/values.yaml
+sed: can't read charts/backstage-node-app/values.yaml: No such file or directory
+Error: Process completed with exit code 2.
