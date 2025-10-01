@@ -8,7 +8,7 @@ server:
   replicas: 1
 
 repoServer:
-  replicas: 1
+  replicas: 2
 
 applicationset:
   replicas: 1
