@@ -68,6 +68,7 @@ jobs:
             echo "Application already exists, syncing..."
             argocd app sync ${{values.app_name}}
           else
+            echo "Creating new application..."
             argocd app create ${{values.app_name}} \
               --repo $repo \
               --path charts/${{values.app_name}} \
@@ -76,8 +77,9 @@ jobs:
               --dest-server https://kubernetes.default.svc \
               --sync-policy auto \
               --revision main \
-              --sync-option CreateNamespace=true; then
-              echo "Application created successfully"
+              --sync-option CreateNamespace=true
+            echo "Application created successfully"
+          fi
 
       - name: Wait for synchronization
         shell: bash
