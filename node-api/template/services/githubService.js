@@ -4,7 +4,7 @@ const { execSync } = require('child_process');
 class GitHubService {
   constructor() {
     this.githubToken = process.env.GITHUB_TOKEN;
-    this.githubOwner = process.env.GITHUB_OWNER || 'felipeneuhauss';
+    this.githubOwner = process.env.GITHUB_OWNER || 'hexspark-digital';
     this.githubRepo = process.env.GITHUB_REPO || '${{values.app_name}}';
     this.githubApiUrl = 'https://api.github.com';
   }
