@@ -44,7 +44,7 @@ spec:
         url: ./template
         values:
           app_name: ${{ parameters.name }}
-          app_environment: ${{ parameters.environment }}
+          app_env: ${{ parameters.environment }}
 
     - id: fetchDocs
       name: Fetch Docs
@@ -57,8 +57,8 @@ spec:
       name: Publish
       action: publish:github
       input:
-        description: This is ${{ parameters.name }}
-        repoUrl: github.com?owner=felipeneuhauss&repo=${{ parameters.name }}
+        description: This is ${{ parameters.name }}-${{ parameters.environment }} api
+        repoUrl: github.com?owner=felipeneuhauss&repo=${{ parameters.name }}-${{ parameters.environment }}
         defaultBranch: 'main'
         protectDefaultBranch: true
 
