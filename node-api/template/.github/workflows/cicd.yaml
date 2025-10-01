@@ -57,7 +57,21 @@ jobs:
           
       - name: Deploy to ArgoCD
         run: |
-          argocd login argocd.example.com --username admin --password ${{'${{ secrets.ARGOCD_PASSWORD }}'}} --insecure
+          argocd login --insecure --grpc-web argocd-server.argocd-backstage --username admin --password ${{'${{ secrets.ARGOCD_PASSWORD }}'}}
+
+          repo=https://github.com/hexspark-digital/${{values.app_name}}
+          argocd app list | grep -q $repo || argocd repo add $repo
+
+          argocd get apps | grep -q ${{values.app_name}} || \
+          argocd app create ${{values.app_name}} \
+            --repo $repo \
+            --path charts/${{values.app_name}} \
+            --dest-namespace ${{values.app_env}} \
+            --values charts/${{values.app_name}}/values-${{values.app_env}}.yaml \
+            --dest-server https://kubernetes.default.svc \
+            --sync-policy auto \
+            --revision main \
+            --sync-option CreateNamespace=true
+
           argocd app sync ${{values.app_name}}
             
-
