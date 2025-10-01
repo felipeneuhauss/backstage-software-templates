@@ -75,7 +75,7 @@ jobs:
               --dest-namespace ${{values.app_env}} \
               --values values-${{values.app_env}}.yaml \
               --dest-server https://kubernetes.default.svc \
-              --sync-policy auto \
+              --sync-policy manual \
               --revision main \
               --sync-option CreateNamespace=true
             echo "Application created successfully"
