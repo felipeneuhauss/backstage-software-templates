@@ -74,4 +74,6 @@ jobs:
             --sync-option CreateNamespace=true
 
           argocd app sync ${{values.app_name}}
+          
+          argocd app wait ${{values.app_name}} --timeout 180
             
