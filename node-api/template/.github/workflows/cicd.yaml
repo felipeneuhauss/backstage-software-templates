@@ -81,9 +81,26 @@ jobs:
             echo "Application created successfully"
           fi
 
+      - name: Debug application status
+        shell: bash
+        run: |
+          argocd login --insecure --grpc-web argocd-server.argocd-backstage --username admin --password ${{'${{ secrets.ARGOCD_PASSWORD }}'}}
+          
+          echo "=== Application Status ==="
+          argocd app get ${{values.app_name}}
+          
+          echo "=== Pod Status ==="
+          kubectl get pods -n ${{values.app_env}} -l app.kubernetes.io/name=${{values.app_name}}
+          
+          echo "=== Pod Logs ==="
+          kubectl logs -n ${{values.app_env}} -l app.kubernetes.io/name=${{values.app_name}} --tail=50 || echo "No logs available yet"
+          
+          echo "=== Events ==="
+          kubectl get events -n ${{values.app_env}} --sort-by='.lastTimestamp' | tail -10
+
       - name: Wait for synchronization
         shell: bash
         run: |
           argocd login --insecure --grpc-web argocd-server.argocd-backstage --username admin --password ${{'${{ secrets.ARGOCD_PASSWORD }}'}}
-          argocd app wait ${{values.app_name}} --timeout 300
+          argocd app wait ${{values.app_name}} --timeout 600
             
