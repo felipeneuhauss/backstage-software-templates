@@ -80,41 +80,7 @@ jobs:
               --sync-option CreateNamespace=true
             echo "Application created successfully"
           fi
-
-      - name: Install kubectl
-        run: |
-          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-          chmod +x kubectl
-          sudo mv kubectl /usr/local/bin/
-
-      - name: Configure kubectl
-        run: |
-          mkdir -p ~/.kube
-          # Configure kubectl to use the same cluster as ArgoCD
-          kubectl config set-cluster default --server=https://kubernetes.default.svc --insecure-skip-tls-verify=true
-          kubectl config set-context default --cluster=default --user=default
-          kubectl config use-context default
-
-      - name: Debug application status
-        shell: bash
-        run: |
-          argocd login --insecure --grpc-web argocd-server.argocd-backstage --username admin --password ${{'${{ secrets.ARGOCD_PASSWORD }}'}}
           
-          echo "=== Application Status ==="
-          argocd app get ${{values.app_name}}
-          
-          echo "=== Pod Status ==="
-          kubectl get pods -n ${{values.app_env}} -l app.kubernetes.io/name=${{values.app_name}} || echo "No pods found"
-          
-          echo "=== Pod Logs ==="
-          kubectl logs -n ${{values.app_env}} -l app.kubernetes.io/name=${{values.app_name}} --tail=50 || echo "No logs available yet"
-          
-          echo "=== Events ==="
-          kubectl get events -n ${{values.app_env}} --sort-by='.lastTimestamp' | tail -10 || echo "No events found"
-          
-          echo "=== Deployment Status ==="
-          kubectl get deployment -n ${{values.app_env}} ${{values.app_name}} -o wide || echo "Deployment not found"
-
       - name: Wait for synchronization
         shell: bash
         run: |
