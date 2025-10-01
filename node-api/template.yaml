@@ -5,7 +5,7 @@ kind: Template
 metadata:
   name: node-api
   title: Node API template
-  description: scaffolder v1beta3 template for a Node.js API
+  description: Scaffolder v1beta3 template for a Node.js API
 spec:
   owner: development
   type: service
@@ -15,7 +15,6 @@ spec:
     - title: Fill in some steps
       required:
         - name
-        - environment
       properties:
         name:
           title: Name
@@ -24,16 +23,6 @@ spec:
           ui:autofocus: true
           ui:options:
             rows: 5
-        environment:
-          title: Environment
-          type: string
-          description: Environment of the component
-          ui:field: Select
-          ui:options:
-            choices:
-              - development
-              - staging
-              - production
         owner:
           title: Owner
           type: string
@@ -42,17 +31,17 @@ spec:
           ui:options:
             catalogFilter:
               kind: Group
-    # - title: Choose a location
-    #   required:
-    #     - repoUrl
-    #   properties:
-    #     repoUrl:
-    #       title: Repository Location
-    #       type: string
-    #       ui:field: RepoUrlPicker
-    #       ui:options:
-    #         allowedHosts:
-    #           - github.com
+    - title: Choose a location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
 
   # here's the steps that are executed in series in the scaffolder backend
   steps:
@@ -62,8 +51,8 @@ spec:
       input:
         url: ./template
         values:
-          name: ${{ parameters.name }}
-          owner: ${{ parameters.owner }}
+          app_name: ${{ parameters.name }}
+          app_repository_url: ${{ parameters.repoUrl }}
 
     - id: fetchDocs
       name: Fetch Docs
