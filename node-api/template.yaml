@@ -20,28 +20,20 @@ spec:
           title: Name
           type: string
           description: Unique name of the component
+          pattern: '^([a-zA-Z][a-zA-Z0-9]*)(-[a-zA-Z0-9]+)*$'
           ui:autofocus: true
           ui:options:
             rows: 5
-        owner:
-          title: Owner
+
+        environment:
+          title: Environment
           type: string
-          description: Owner of the component
-          ui:field: OwnerPicker
-          ui:options:
-            catalogFilter:
-              kind: Group
-    - title: Choose a location
-      required:
-        - repoUrl
-      properties:
-        repoUrl:
-          title: Repository Location
-          type: string
-          ui:field: RepoUrlPicker
-          ui:options:
-            allowedHosts:
-              - github.com
+          description: Environment of the component
+          enum:
+            - dev
+            - stg
+            - prod
+          default: dev
 
   # here's the steps that are executed in series in the scaffolder backend
   steps:
@@ -52,7 +44,7 @@ spec:
         url: ./template
         values:
           app_name: ${{ parameters.name }}
-          app_repository_url: ${{ parameters.repoUrl }}
+          app_environment: ${{ parameters.environment }}
 
     - id: fetchDocs
       name: Fetch Docs
@@ -66,8 +58,9 @@ spec:
       action: publish:github
       input:
         description: This is ${{ parameters.name }}
-        repoUrl: ${{ parameters.repoUrl }}
+        repoUrl: github.com?owner=felipeneuhauss&repo=${{ parameters.name }}
         defaultBranch: 'main'
+        protectDefaultBranch: true
 
     - id: register
       name: Register
