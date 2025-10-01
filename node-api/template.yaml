@@ -60,6 +60,7 @@ spec:
         description: This is ${{ parameters.name }} api
         repoUrl: github.com?owner=hexspark-digital&repo=${{ parameters.name }}
         defaultBranch: 'main'
+        repositoryVisibility: public
         protectDefaultBranch: true
 
     - id: register
