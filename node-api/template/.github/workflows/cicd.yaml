@@ -57,7 +57,7 @@ jobs:
           
       - name: Deploy to ArgoCD
         run: |
-          argocd login argocd-server.argocd-backstage --username admin --password ${{'${{ secrets.ARGOCD_PASSWORD }}'}} --insecure
+          argocd login argocd.example.com --username admin --password ${{'${{ secrets.ARGOCD_PASSWORD }}'}} --insecure
           argocd app sync ${{values.app_name}}
             
 
