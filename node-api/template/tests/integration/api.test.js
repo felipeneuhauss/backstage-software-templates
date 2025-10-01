@@ -23,7 +23,7 @@ describe('API Endpoints Integration Tests', () => {
       expect(response.body).toHaveProperty('namespace');
       expect(response.body).toHaveProperty('endpoints');
       
-      expect(response.body.message).toBe('Welcome to Backstage Node App');
+      expect(response.body.message).toBe('Welcome to ${{values.app_name}}');
       expect(response.body.version).toBe('1.0.0');
       expect(typeof response.body.timestamp).toBe('string');
       expect(typeof response.body.hostname).toBe('string');
@@ -86,7 +86,7 @@ describe('API Endpoints Integration Tests', () => {
     it('should include service information', async () => {
       const response = await app.get('/api-status');
 
-      expect(response.body.service.name).toBe('backstage-node-app');
+      expect(response.body.service.name).toBe('${{values.app_name}}');
       expect(response.body.service.version).toBe('1.0.0');
       expect(response.body.service.status).toBe('running');
       expect(response.body.service.environment).toBe('test');

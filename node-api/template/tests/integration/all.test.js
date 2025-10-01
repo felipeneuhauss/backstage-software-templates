@@ -37,7 +37,7 @@ describe('Complete API Integration Test Suite', () => {
         app.get('/api-status')
       ]);
 
-      expect(statusResponse.body.service.name).toBe('backstage-node-app');
+      expect(statusResponse.body.service.name).toBe('${{values.app_name}}');
     });
   });
 
